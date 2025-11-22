@@ -1,0 +1,29 @@
+# Security Headers
+X-Frame-Options: DENY
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Referrer-Policy: strict-origin-when-cross-origin
+Permissions-Policy: camera=(), microphone=(), geolocation=()
+
+# Cache static assets
+/ai-community-logo.svg
+  Cache-Control: public, max-age=31536000, immutable
+
+/*.svg
+  Cache-Control: public, max-age=31536000, immutable
+
+/*.png
+  Cache-Control: public, max-age=31536000, immutable
+
+/*.jpg
+  Cache-Control: public, max-age=31536000, immutable
+
+/*.webp
+  Cache-Control: public, max-age=31536000, immutable
+
+# Cache API responses
+/api/events
+  Cache-Control: public, s-maxage=3600, stale-while-revalidate=86400
+
+/api/communities/proxy
+  Cache-Control: public, s-maxage=3600, stale-while-revalidate=86400

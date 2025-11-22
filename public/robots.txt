@@ -1,0 +1,9 @@
+# https://www.robotstxt.org/robotstxt.html
+User-agent: *
+Allow: /
+
+# Disallow API routes from being crawled
+Disallow: /api/
+
+# Sitemap
+Sitemap: https://aicommunity.dev/sitemap.xml

@@ -1,0 +1,38 @@
+/* Globals are handled by MUI CssBaseline */
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
+  /* Prevent text size adjustment on orientation change */
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  /* Better touch scrolling on iOS */
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Improve tap highlight on mobile */
+a, button {
+  -webkit-tap-highlight-color: rgba(66, 133, 244, 0.2);
+}
+
+/* Prevent horizontal scroll on mobile */
+#__next {
+  overflow-x: hidden;
+}
+
+/* Better image rendering */
+img {
+  max-width: 100%;
+  height: auto;
+}

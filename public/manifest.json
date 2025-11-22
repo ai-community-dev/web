@@ -1,0 +1,25 @@
+{
+    "name": "AI Community",
+    "short_name": "AI Community",
+    "description": "Join a vibrant network of AI/ML enthusiasts, developers, and researchers across India",
+    "id": "/",
+    "start_url": "/",
+    "scope": "/",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#4285F4",
+    "orientation": "portrait-primary",
+    "icons": [
+        {
+            "src": "/ai-community-logo.svg",
+            "sizes": "any",
+            "type": "image/svg+xml",
+            "purpose": "any maskable"
+        }
+    ],
+    "categories": [
+        "education",
+        "productivity",
+        "social"
+    ]
+}
