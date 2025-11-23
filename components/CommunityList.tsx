@@ -108,16 +108,14 @@ function CommunityCard({ community, index }: { community: Community; index: numb
                                     {community.organizers.slice(0, 5).map((organizer, idx) => (
                                         <Box
                                             key={organizer.id}
-                                            component="img"
-                                            src={organizer.image_url || '/globe.svg'}
-                                            alt={organizer.name}
                                             title={organizer.name}
                                             sx={{
                                                 width: { xs: 28, sm: 32 },
                                                 height: { xs: 28, sm: 32 },
                                                 borderRadius: '50%',
                                                 border: '2px solid white',
-                                                objectFit: 'cover',
+                                                position: 'relative',
+                                                overflow: 'hidden',
                                                 zIndex: 5 - idx,
                                                 '&:hover': {
                                                     zIndex: 10,
@@ -125,7 +123,15 @@ function CommunityCard({ community, index }: { community: Community; index: numb
                                                     transition: 'all 0.2s ease'
                                                 }
                                             }}
-                                        />
+                                        >
+                                            <Image
+                                                src={organizer.image_url || '/globe.svg'}
+                                                alt={organizer.name}
+                                                fill
+                                                sizes="(max-width: 600px) 28px, 32px"
+                                                style={{ objectFit: 'cover' }}
+                                            />
+                                        </Box>
                                     ))}
                                     {community.organizers.length > 5 && (
                                         <Box
@@ -184,7 +190,7 @@ function CommunityCard({ community, index }: { community: Community; index: numb
     );
 }
 
-export default function CommunityList() {
+export default function CommunityList({ initialData }: { initialData?: Community[] }) {
     const [mounted, setMounted] = useState(false);
 
     useEffect(() => {
@@ -192,11 +198,12 @@ export default function CommunityList() {
     }, []);
 
     const { data: swrData, error } = useSWR<Community[]>(mounted ? '/api/communities/proxy' : null, fetcher, {
+        fallbackData: initialData,
         refreshInterval: 300000,
         revalidateOnFocus: false,
     });
 
-    const communityList = swrData || [];
+    const communityList = swrData || initialData || [];
 
     return (
         <Box id="communities" sx={{ py: { xs: 6, sm: 8, md: 10 }, bgcolor: 'grey.50', px: { xs: 2, sm: 3 } }}>

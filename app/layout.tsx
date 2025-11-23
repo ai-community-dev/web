@@ -1,6 +1,8 @@
+import { GoogleAnalytics } from '@next/third-parties/google';
 import type { Metadata } from 'next';
 import ThemeRegistry from '@/components/ThemeRegistry/ThemeRegistry';
 import Header from '@/components/Header';
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 export const metadata: Metadata = {
   title: 'AI Community | Connect with AI Communities',
@@ -95,8 +97,10 @@ export default function RootLayout({
         <ThemeRegistry>
           <Header />
           {children}
+          <SpeedInsights />
         </ThemeRegistry>
       </body>
+      <GoogleAnalytics gaId="G-JNMYC69DG2" />
     </html>
   );
 }

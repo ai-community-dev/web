@@ -6,20 +6,24 @@ import Footer from '@/components/Footer';
 import MapLoader from '@/components/MapLoader';
 
 import { getEvents } from '@/lib/events';
+import { getCommunities } from '@/lib/communities';
 
-export default function Home() {
-  // Server-side data fetching temporarily disabled for deployment
-  // const eventsData = await getEvents();
+export default async function Home() {
+  // Server-side data fetching
+  const [eventsData, communitiesData] = await Promise.all([
+    getEvents(),
+    getCommunities()
+  ]);
 
   return (
     <Box component="main">
       <Hero />
-      <EventsList initialData={undefined} />
+      <EventsList initialData={eventsData} />
       {/* Map Section - Full Width */}
       <Box sx={{ width: '100%', minHeight: { xs: '400px', sm: '500px', md: '600px' } }}>
         <MapLoader />
       </Box>
-      <CommunityList />
+      <CommunityList initialData={communitiesData} />
       <Footer />
     </Box>
   );

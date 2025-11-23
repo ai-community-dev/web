@@ -70,6 +70,7 @@ export default function Header() {
                                 alt="AI Community Logo"
                                 width={40}
                                 height={40}
+                                priority
                                 style={{ marginRight: '12px' }}
                             />
                             <GradientText

@@ -106,5 +106,5 @@ const withPWA = require("@ducanh2912/next-pwa").default({
 
 // Temporarily disabled - causing build issues
 // export default withPWA(nextConfig);
-export default nextConfig;
+export default withPWA(nextConfig);
 

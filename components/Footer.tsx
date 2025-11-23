@@ -92,6 +92,7 @@ export default function Footer() {
                             target="_blank"
                             rel="noopener noreferrer"
                             aria-label="Facebook"
+                            suppressHydrationWarning
                             sx={{
                                 color: 'text.secondary',
                                 '&:hover': { color: 'primary.main' },
@@ -112,6 +113,7 @@ export default function Footer() {
                             target="_blank"
                             rel="noopener noreferrer"
                             aria-label="Instagram"
+                            suppressHydrationWarning
                             sx={{
                                 color: 'text.secondary',
                                 '&:hover': { color: 'primary.main' },
@@ -132,6 +134,7 @@ export default function Footer() {
                             target="_blank"
                             rel="noopener noreferrer"
                             aria-label="LinkedIn"
+                            suppressHydrationWarning
                             sx={{
                                 color: 'text.secondary',
                                 '&:hover': { color: 'primary.main' },
@@ -152,6 +155,7 @@ export default function Footer() {
                             target="_blank"
                             rel="noopener noreferrer"
                             aria-label="X (Twitter)"
+                            suppressHydrationWarning
                             sx={{
                                 color: 'text.secondary',
                                 '&:hover': { color: 'primary.main' },
@@ -172,6 +176,7 @@ export default function Footer() {
                             target="_blank"
                             rel="noopener noreferrer"
                             aria-label="YouTube"
+                            suppressHydrationWarning
                             sx={{
                                 color: 'text.secondary',
                                 '&:hover': { color: 'primary.main' },
@@ -192,6 +197,7 @@ export default function Footer() {
                             target="_blank"
                             rel="noopener noreferrer"
                             aria-label="Commudle"
+                            suppressHydrationWarning
                             sx={{
                                 color: 'text.secondary',
                                 '&:hover': { color: 'primary.main' },
