@@ -83,7 +83,8 @@ export interface PaginatedEvents {
 }
 
 export interface EventsResponse {
-  past: PaginatedEvents;
+  past: Event[];
   future: Event[];
-  lastUpdated: string;
+  lastUpdated?: string;
+  error?: string;
 }

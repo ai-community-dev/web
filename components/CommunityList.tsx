@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
@@ -7,6 +7,7 @@ import Grid from '@mui/material/Grid';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Chip from '@mui/material/Chip';
+import Avatar from '@mui/material/Avatar';
 import Stack from '@mui/material/Stack';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import EventIcon from '@mui/icons-material/Event';
@@ -29,6 +30,7 @@ function CommunityCard({ community, index }: { community: Community; index: numb
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-50px" }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
+                whileHover={{ y: -8, transition: { duration: 0.2 } }}
                 style={{ height: '100%' }}
             >
                 <Card
@@ -37,26 +39,31 @@ function CommunityCard({ community, index }: { community: Community; index: numb
                         height: '100%',
                         display: 'flex',
                         flexDirection: 'column',
-                        transition: 'all 0.3s ease',
+                        transition: 'box-shadow 0.3s ease, border-color 0.3s ease',
                         border: '1px solid transparent',
                         cursor: 'pointer',
                         '&:hover': {
-                            transform: 'translateY(-8px)',
                             boxShadow: '0 12px 24px rgba(0,0,0,0.1)',
                             borderColor: index % 3 === 0 ? 'secondary.main' : (index % 3 === 1 ? 'success.main' : 'info.main'),
                         },
                     }}
                 >
-                    <Box sx={{ position: 'relative', height: { xs: 120, sm: 140, md: 160 }, bgcolor: 'grey.100', p: { xs: 1.5, sm: 2 } }}>
-                        <Image
-                            src={imgSrc}
-                            alt={community.name}
-                            fill
-                            style={{ objectFit: 'contain', padding: '12px' }}
-                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                            onError={() => setImgSrc('/globe.svg')}
-                            priority={index < 6}
-                        />
+                    <Box sx={{ position: 'relative', height: { xs: 120, sm: 140, md: 160 }, bgcolor: 'grey.100', p: { xs: 1.5, sm: 2 }, overflow: 'hidden' }}>
+                        <motion.div
+                            whileHover={{ scale: 1.1 }}
+                            transition={{ duration: 0.3 }}
+                            style={{ width: '100%', height: '100%', position: 'relative' }}
+                        >
+                            <Image
+                                src={imgSrc}
+                                alt={community.name}
+                                fill
+                                style={{ objectFit: 'contain', padding: '12px' }}
+                                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                                onError={() => setImgSrc('/globe.svg')}
+                                priority={index < 6}
+                            />
+                        </motion.div>
                     </Box>
                     <CardContent sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column', p: { xs: 2, sm: 2.5, md: 3 } }}>
                         <Typography
@@ -102,58 +109,28 @@ function CommunityCard({ community, index }: { community: Community; index: numb
                         {community.organizers && community.organizers.length > 0 && (
                             <Box sx={{ mb: { xs: 1.5, sm: 2 } }}>
                                 <Typography variant="caption" color="text.secondary" sx={{ mb: 0.5, display: 'block', fontWeight: 600, fontSize: { xs: '0.7rem', sm: '0.75rem' } }}>
-                                    Team
+                                    Community Leads
                                 </Typography>
-                                <Stack direction="row" spacing={-0.5} sx={{ alignItems: 'center' }}>
-                                    {community.organizers.slice(0, 5).map((organizer, idx) => (
-                                        <Box
+                                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                                    {community.organizers.map((organizer) => (
+                                        <Chip
                                             key={organizer.id}
-                                            title={organizer.name}
+                                            avatar={<Avatar src={organizer.image_url} alt={organizer.name} />}
+                                            label={organizer.name}
+                                            size="small"
+                                            variant="outlined"
+                                            clickable={!!organizer.url}
+                                            component={organizer.url ? 'a' : 'div'}
+                                            href={organizer.url}
+                                            target={organizer.url ? "_blank" : undefined}
+                                            rel={organizer.url ? "noopener noreferrer" : undefined}
                                             sx={{
-                                                width: { xs: 28, sm: 32 },
-                                                height: { xs: 28, sm: 32 },
-                                                borderRadius: '50%',
-                                                border: '2px solid white',
-                                                position: 'relative',
-                                                overflow: 'hidden',
-                                                zIndex: 5 - idx,
-                                                '&:hover': {
-                                                    zIndex: 10,
-                                                    transform: 'scale(1.15)',
-                                                    transition: 'all 0.2s ease'
-                                                }
+                                                maxWidth: 140,
+                                                '& .MuiChip-avatar': { width: 20, height: 20 }
                                             }}
-                                        >
-                                            <Image
-                                                src={organizer.image_url || '/globe.svg'}
-                                                alt={organizer.name}
-                                                fill
-                                                sizes="(max-width: 600px) 28px, 32px"
-                                                style={{ objectFit: 'cover' }}
-                                            />
-                                        </Box>
+                                        />
                                     ))}
-                                    {community.organizers.length > 5 && (
-                                        <Box
-                                            sx={{
-                                                width: { xs: 28, sm: 32 },
-                                                height: { xs: 28, sm: 32 },
-                                                borderRadius: '50%',
-                                                border: '2px solid white',
-                                                bgcolor: 'grey.300',
-                                                display: 'flex',
-                                                alignItems: 'center',
-                                                justifyContent: 'center',
-                                                fontSize: { xs: '0.65rem', sm: '0.7rem' },
-                                                fontWeight: 700,
-                                                color: 'text.secondary',
-                                                zIndex: 0
-                                            }}
-                                        >
-                                            +{community.organizers.length - 5}
-                                        </Box>
-                                    )}
-                                </Stack>
+                                </Box>
                             </Box>
                         )}
 
@@ -191,13 +168,7 @@ function CommunityCard({ community, index }: { community: Community; index: numb
 }
 
 export default function CommunityList({ initialData }: { initialData?: Community[] }) {
-    const [mounted, setMounted] = useState(false);
-
-    useEffect(() => {
-        setMounted(true);
-    }, []);
-
-    const { data: swrData, error } = useSWR<Community[]>(mounted ? '/api/communities/proxy' : null, fetcher, {
+    const { data: swrData, error } = useSWR<Community[]>('/api/communities/proxy', fetcher, {
         fallbackData: initialData,
         refreshInterval: 300000,
         revalidateOnFocus: false,

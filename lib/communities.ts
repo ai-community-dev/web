@@ -1,8 +1,33 @@
-import { Community } from '@/types';
+import { Community, Organizer } from '@/types';
 
 const COMMUNITIES_API_URL = 'https://json.commudle.com/api/v2/community_groups/public/communities?community_group_id=tfug&limit=6';
 
 const ML_BHOPAL_API_URL = 'https://json.commudle.com/api/v2/communities?community_id=ml-bhopal';
+
+async function fetchCommunityOrganizers(communityId: number): Promise<Organizer[]> {
+    try {
+        const response = await fetch(`https://json.commudle.com/api/v2/user_roles_users/public_get_community_leaders_by_role?community_id=${communityId}&user_role_name=organizer`, {
+            headers: {
+                'User-Agent': 'Next.js Server',
+                Accept: 'application/json',
+            },
+            next: { revalidate: 3600 }
+        });
+
+        if (!response.ok) return [];
+
+        const data = await response.json();
+        return (data.data?.users || []).map((user: any) => ({
+            id: user.id,
+            name: user.name,
+            image_url: user.photo?.url || user.avatar || '/globe.svg',
+            url: user.username ? `https://www.commudle.com/users/${user.username}` : undefined
+        }));
+    } catch (error) {
+        console.error(`Error fetching organizers for community ${communityId}:`, error);
+        return [];
+    }
+}
 
 async function fetchSingleCommunity(url: string): Promise<Community | null> {
     try {
@@ -21,6 +46,8 @@ async function fetchSingleCommunity(url: string): Promise<Community | null> {
 
         if (!comm) return null;
 
+        const organizers = await fetchCommunityOrganizers(comm.id);
+
         return {
             id: comm.id,
             name: comm.name,
@@ -30,10 +57,11 @@ async function fetchSingleCommunity(url: string): Promise<Community | null> {
             members_count: comm.members_count,
             url: `https://www.commudle.com/communities/${comm.slug}`,
             logo_url: comm.logo_image_path?.url || comm.logo_path || '/globe.svg',
-            completed_events_count: comm.completed_events_count || 0, // API might not return this for single fetch, default to 0 or handle differently if needed. Actually the API response above doesn't show completed_events_count, but shows upcoming_events_count. Let's check if we can get completed events count or just default to 0. The single API response has "upcoming_events_count": 1. It does NOT have completed_events_count. We can default to 0.
+            completed_events_count: comm.completed_events_count || 0,
             has_upcoming_events: comm.upcoming_events_count > 0,
             tags: comm.tags,
             banner_image: comm.banner_image,
+            organizers,
         };
     } catch (error) {
         console.error('Error fetching single community:', error);
@@ -70,8 +98,9 @@ export async function getCommunities(): Promise<Community[]> {
             const pageData = data.data?.page || [];
             const pageInfo = data.data?.page_info;
 
-            const mappedCommunities: Community[] = pageData.map((item: any) => {
+            const mappedCommunities: Community[] = await Promise.all(pageData.map(async (item: any) => {
                 const comm = item.data;
+                const organizers = await fetchCommunityOrganizers(comm.id);
                 return {
                     id: comm.id,
                     name: comm.name,
@@ -85,8 +114,9 @@ export async function getCommunities(): Promise<Community[]> {
                     has_upcoming_events: comm.has_upcoming_events,
                     tags: comm.tags,
                     banner_image: comm.banner_image,
+                    organizers,
                 };
-            });
+            }));
 
             allCommunities = [...allCommunities, ...mappedCommunities];
 

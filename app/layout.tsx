@@ -3,6 +3,17 @@ import type { Metadata } from 'next';
 import ThemeRegistry from '@/components/ThemeRegistry/ThemeRegistry';
 import Header from '@/components/Header';
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import type { Viewport } from 'next';
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#4285F4' },
+    { media: '(prefers-color-scheme: dark)', color: '#1a73e8' }
+  ],
+};
 
 export const metadata: Metadata = {
   title: 'AI Community | Connect with AI Communities',

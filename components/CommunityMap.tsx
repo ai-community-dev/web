@@ -42,13 +42,23 @@ const getCoordinates = (location: string | null) => {
     return null;
 };
 
-export default function CommunityMap() {
+interface CommunityMapProps {
+    communities?: Community[];
+}
+
+export default function CommunityMap({ communities: initialCommunities }: CommunityMapProps) {
     const [hoveredCommunity, setHoveredCommunity] = useState<number | null>(null);
     const [mapError, setMapError] = useState<string | null>(null);
-    const [communities, setCommunities] = useState<Community[]>([]);
-    const [loading, setLoading] = useState(true);
+    const [communities, setCommunities] = useState<Community[]>(initialCommunities || []);
+    const [loading, setLoading] = useState(!initialCommunities);
 
     useEffect(() => {
+        if (initialCommunities) {
+            setCommunities(initialCommunities);
+            setLoading(false);
+            return;
+        }
+
         // Fetch communities from API
         fetch('/api/communities/proxy')
             .then(res => res.json())
@@ -72,8 +82,8 @@ export default function CommunityMap() {
         };
     }, []);
 
-    const defaultCenter = { lat: 22.5937, lng: 78.9629 }; // Center of India
-    const defaultZoom = 4;
+    const defaultCenter = { lat: 21.7679, lng: 78.8718 }; // Center of India
+    const defaultZoom = 4.8;
 
     if (loading) {
         return (

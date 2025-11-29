@@ -5,10 +5,7 @@ const nextConfig: NextConfig = {
   // removeChild hydration errors with third-party DOM mutations (Emotion/Maps)
   reactStrictMode: false,
 
-  // Suppress source map warnings in development
-  devIndicators: {
-    buildActivityPosition: 'bottom-right',
-  },
+
 
   images: {
     remotePatterns: [
@@ -97,14 +94,13 @@ const withPWA = require("@ducanh2912/next-pwa").default({
   cacheOnFrontEndNav: true,
   aggressiveFrontEndNavCaching: true,
   reloadOnOnline: true,
-  swcMinify: true,
-  disable: process.env.NODE_ENV === "development",
+  disable: false, // Enable in dev for testing
   workboxOptions: {
     disableDevLogs: true,
   },
 });
 
-// Temporarily disabled - causing build issues
+// Temporarily disabled - causing build issues with Next.js 15
 // export default withPWA(nextConfig);
-export default withPWA(nextConfig);
+export default nextConfig;
 
