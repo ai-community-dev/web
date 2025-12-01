@@ -31,6 +31,10 @@ const nextConfig: NextConfig = {
     // Optimize for better hydration
     optimizePackageImports: ['@mui/material', '@mui/icons-material', 'framer-motion'],
   },
+  turbopack: {
+    root: process.cwd(),
+  },
+
 
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production' ? {
@@ -89,16 +93,16 @@ const nextConfig: NextConfig = {
 };
 
 // eslint-disable-next-line @typescript-eslint/no-require-imports
-const withPWA = require("@ducanh2912/next-pwa").default({
-  dest: "public",
-  cacheOnFrontEndNav: true,
-  aggressiveFrontEndNavCaching: true,
-  reloadOnOnline: true,
-  disable: false, // Enable in dev for testing
-  workboxOptions: {
-    disableDevLogs: true,
-  },
-});
+// const withPWA = require("@ducanh2912/next-pwa").default({
+//   dest: "public",
+//   cacheOnFrontEndNav: true,
+//   aggressiveFrontEndNavCaching: true,
+//   reloadOnOnline: true,
+//   disable: false, // Enable in dev for testing
+//   workboxOptions: {
+//     disableDevLogs: true,
+//   },
+// });
 
 // Temporarily disabled - causing build issues with Next.js 15
 // export default withPWA(nextConfig);

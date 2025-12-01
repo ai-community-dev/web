@@ -47,6 +47,7 @@ export default function Hero() {
                         background: `linear-gradient(45deg, ${theme.palette.google.blue}20, ${theme.palette.google.green}20)`,
                         filter: 'blur(60px)',
                         zIndex: 0,
+                        willChange: 'transform',
                     }}
                 />
                 <Box
@@ -70,6 +71,7 @@ export default function Hero() {
                         background: `linear-gradient(45deg, ${theme.palette.google.red}20, ${theme.palette.google.yellow}20)`,
                         filter: 'blur(60px)',
                         zIndex: 0,
+                        willChange: 'transform',
                     }}
                 />
                 <Container maxWidth="md">
