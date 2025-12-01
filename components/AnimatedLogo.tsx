@@ -35,6 +35,7 @@ export default function AnimatedLogo() {
                     filter: 'blur(40px)',
                     opacity: 0.8,
                     zIndex: 0,
+                    willChange: 'transform',
                 }}
                 animate={{
                     rotate: 360,
@@ -53,7 +54,7 @@ export default function AnimatedLogo() {
                     }
                 }}
             />
-            
+
             {/* Secondary Glow for depth */}
             <motion.div
                 style={{
@@ -65,6 +66,7 @@ export default function AnimatedLogo() {
                     filter: 'blur(60px)',
                     opacity: 0.4,
                     zIndex: -1,
+                    willChange: 'transform',
                 }}
                 animate={{
                     scale: [1, 1.5, 1],
@@ -84,16 +86,16 @@ export default function AnimatedLogo() {
                 transition={{ duration: 0.8, ease: "easeOut" }}
                 style={{ position: 'relative', zIndex: 1 }}
             >
-                <Image 
-                    src="/ai-community-logo.svg" 
-                    alt="AI Community Logo" 
-                    width={100} 
+                <Image
+                    src="/ai-community-logo.svg"
+                    alt="AI Community Logo"
+                    width={100}
                     height={100}
                     priority
-                    style={{ 
+                    style={{
                         display: 'block',
                         filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.2))'
-                    }} 
+                    }}
                 />
             </motion.div>
         </Box>
