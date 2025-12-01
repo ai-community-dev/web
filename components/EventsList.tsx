@@ -198,17 +198,20 @@ function EventCard({ event, index }: EventCardProps) {
                 viewport={{ once: true, margin: "-50px" }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 whileHover={{ y: -8, transition: { duration: 0.2 } }}
-                style={{ height: '100%' }}
+                style={{ height: '100%', willChange: 'transform' }}
             >
                 <Card
-                    onClick={() => window.open(event.url, '_blank', 'noopener,noreferrer')}
+                    component="a"
+                    href={event.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     sx={{
                         height: '100%',
                         display: 'flex',
                         flexDirection: 'column',
                         transition: 'box-shadow 0.3s ease, border-color 0.3s ease',
                         border: '1px solid transparent',
-                        cursor: 'pointer',
+                        textDecoration: 'none', // Remove default link underline
                         '&:hover': {
                             boxShadow: '0 12px 24px rgba(0,0,0,0.1)',
                             borderColor: index % 3 === 0 ? 'secondary.main' : (index % 3 === 1 ? 'success.main' : 'info.main'),
@@ -288,7 +291,9 @@ function EventCard({ event, index }: EventCardProps) {
                                         pointerEvents: 'none', // Prevent clicking links in the card preview
                                     }
                                 }}
-                                dangerouslySetInnerHTML={{ __html: event.description }}
+                                dangerouslySetInnerHTML={{
+                                    __html: event.description.replace(/<a\b[^>]*>(.*?)<\/a>/gi, '$1')
+                                }}
                             />
                         )}
 
